@@ -27,10 +27,14 @@ public class CharacterCombat : MonoBehaviour
             bool hit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo);
             if (hit)
             {
-                Debug.Log("Hit " + hitInfo.transform.gameObject.name);
                 if (hitInfo.transform.gameObject.tag == "Enemy")
                 {
+                    if(currentTarget != null)
+                    {
+                        currentTarget.GetComponent<Enemy>().crosshair.enabled = false;
+                    }
                     currentTarget = hitInfo.transform.gameObject.transform;
+                    currentTarget.GetComponent<Enemy>().crosshair.enabled = true;
                 }
 
             }

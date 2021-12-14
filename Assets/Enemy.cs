@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
@@ -20,7 +21,14 @@ public class Enemy : MonoBehaviour
     private float perceptionCheckMax = 3.0f;
     private float perceptionCheckCurrent = 3.0f;
 
-    public float stoppingDistance = .5f; 
+    public float stoppingDistance = .5f;
+
+    public Image crosshair;
+
+    private void Awake()
+    {
+        crosshair.enabled = false;
+    }
 
     // Start is called before the first frame update
     void Start()

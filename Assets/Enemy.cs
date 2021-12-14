@@ -10,18 +10,25 @@ public class Enemy : MonoBehaviour
     public NavMeshAgent agent;
     public GameObject eyes;
     private GameObject[] players;
+    public BarValue healthBar;
     [SerializeField]
     private float lookDamping = 2.2f;
+    public float lookRadius = 10f;
 
-    private bool hasAggro = false;
+    public Transform target;
 
     private float perceptionCheckMax = 3.0f;
     private float perceptionCheckCurrent = 3.0f;
+
+    public float stoppingDistance = .5f; 
 
     // Start is called before the first frame update
     void Start()
     {
         players = GameObject.FindGameObjectsWithTag("PlayerCollider");
+        agent.stoppingDistance = stoppingDistance;
+        currentHealth = maxHealth;
+        healthBar.SetMaxValue(maxHealth);
     }
 
     // Update is called once per frame
@@ -36,7 +43,7 @@ public class Enemy : MonoBehaviour
                 perceptionCheckCurrent = 0.0f;
             }
         }
-        if(perceptionCheckCurrent == 0.0f && !hasAggro)
+        if(perceptionCheckCurrent == 0.0f && target == null)
         {
             int perceptionRoll = Random.Range(1, 20);
             if (perceptionRoll >= 10)
@@ -50,6 +57,23 @@ public class Enemy : MonoBehaviour
                 perceptionCheckCurrent = perceptionCheckMax;
                 Debug.Log("Enemy Perception Check Failed: " + perceptionRoll.ToString());
             }
+        }
+        if(target != null)
+        {
+            var lookPos = target.position - transform.position;
+            lookPos.y = 0;
+            var rotation = Quaternion.LookRotation(lookPos);
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * lookDamping);
+
+            if(Vector3.Distance(transform.position, target.position) > stoppingDistance)
+            {
+                agent.SetDestination(target.position);
+            }
+        }
+
+        if(currentHealth <= 0)
+        {
+            Destroy(gameObject);
         }
     }
 
@@ -69,11 +93,7 @@ public class Enemy : MonoBehaviour
                         GameManager.Instance.StartCombat();
                     }
                     Debug.DrawRay(eyes.transform.position, rayDirection * 500, Color.green, 0.01f);
-                    hasAggro = true;
-                    var lookPos = player.transform.position - transform.position;
-                    lookPos.y = 0;
-                    var rotation = Quaternion.LookRotation(lookPos);
-                    transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * lookDamping);
+                    target = player.transform;
                 }
                 else
                 {
@@ -81,5 +101,11 @@ public class Enemy : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        currentHealth -= damage;
+        healthBar.SetValue(currentHealth);
     }
 }

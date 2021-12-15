@@ -28,8 +28,4 @@ public class BarValue : MonoBehaviour
     {
         // TODO
     }
-    private void Update()
-    {
-        
-    }
 }

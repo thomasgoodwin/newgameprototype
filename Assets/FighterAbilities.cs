@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FighterAbilities
 {
+
     public void NormalAttack(Transform player, Transform target)
     {
         Debug.Log("NORMAL ATTACK");

@@ -7,20 +7,34 @@ public class CharacterCombat : MonoBehaviour
     public CharacterController characterController;
     private FighterAbilities fighterAbilities;
     public Transform currentTarget;
+    public Queue<CombatAction> combatAcitons;
+
     // Start is called before the first frame update
     void Start()
     {
         fighterAbilities = new FighterAbilities();
+        combatAcitons = new Queue<CombatAction>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            fighterAbilities.NormalAttack(gameObject.transform, currentTarget);
-        }
+        GameManager gameManager = GameManager.Instance;
 
+        if(currentTarget != null && gameManager.inCombat)
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                combatAcitons.Enqueue(new CombatAction
+                {
+                    action = () => fighterAbilities.NormalAttack(transform, currentTarget),
+                    actionIcon = SpriteBank.Instance.normalAttackIcon,
+                    attacker = transform,
+                    defender = currentTarget
+                });
+            }
+        }
+        
         if (Input.GetMouseButtonDown(0))
         {
             RaycastHit hitInfo = new RaycastHit();
@@ -38,7 +52,19 @@ public class CharacterCombat : MonoBehaviour
                 }
 
             }
+        }
 
+        // if i can take my turn i take it
+        if (gameManager.playerTurnTimerCurrent == 0.0f)
+        {
+            if (combatAcitons.Count > 0)
+            {
+                CombatAction topAction = combatAcitons.Dequeue();
+                topAction.action();
+                gameManager.SetPlayerTurnTimer();
+            }
+            gameManager.turnCounter++;
         }
     }
+
 }

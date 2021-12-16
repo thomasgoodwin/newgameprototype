@@ -7,13 +7,12 @@ public class CharacterCombat : MonoBehaviour
     public CharacterController characterController;
     private FighterAbilities fighterAbilities;
     public Transform currentTarget;
-    public Queue<CombatAction> combatAcitons;
+    public ActionQueue actionQueue;
 
     // Start is called before the first frame update
     void Start()
     {
         fighterAbilities = new FighterAbilities();
-        combatAcitons = new Queue<CombatAction>();
     }
 
     // Update is called once per frame
@@ -25,7 +24,7 @@ public class CharacterCombat : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                combatAcitons.Enqueue(new CombatAction
+                actionQueue.AddAction(new CombatAction
                 {
                     action = () => fighterAbilities.NormalAttack(transform, currentTarget),
                     actionIcon = SpriteBank.Instance.normalAttackIcon,
@@ -57,11 +56,9 @@ public class CharacterCombat : MonoBehaviour
         // if i can take my turn i take it
         if (gameManager.playerTurnTimerCurrent == 0.0f)
         {
-            if (combatAcitons.Count > 0)
+            if (!actionQueue.isEmpty())
             {
-                CombatAction topAction = combatAcitons.Dequeue();
-                topAction.action();
-                gameManager.SetPlayerTurnTimer();
+                actionQueue.TakeTopAction();
             }
             gameManager.turnCounter++;
         }

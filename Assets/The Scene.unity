@@ -3009,6 +3009,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actionIconTemplate: {fileID: 1797134954}
+  actionCanvas: {fileID: 693541167}
+  actionIcons: []
+  maxDisplayedActions: 4
+  currentActionBorder: {fileID: 1712598701}
 --- !u!1 &713046569 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 180328, guid: a0bb8675e5ffd8648a6e39890d72aa28, type: 3}
@@ -4964,7 +4968,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.09370947, y: 9.715094e-10, z: 2.2800727e-10, w: 0.9955996}
+  m_LocalRotation: {x: 0.09370947, y: -9.715095e-10, z: -2.2800722e-10, w: 0.9955996}
   m_LocalPosition: {x: -18.793608, y: 3.0290322, z: -29.275997}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -5668,7 +5672,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1224241983}
-  m_LocalRotation: {x: 0.07925, y: -0.0000000042880663, z: 3.409015e-10, w: 0.9968548}
+  m_LocalRotation: {x: 0.07925, y: 0.0000000042880655, z: -3.4090142e-10, w: 0.9968548}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CharacterCombat : MonoBehaviour
 {
@@ -49,7 +50,6 @@ public class CharacterCombat : MonoBehaviour
                     currentTarget = hitInfo.transform.gameObject.transform;
                     currentTarget.GetComponent<Enemy>().crosshair.enabled = true;
                 }
-
             }
         }
 

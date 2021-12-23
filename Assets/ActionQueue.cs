@@ -5,24 +5,42 @@ using UnityEngine.UI;
 
 public class ActionQueue : MonoBehaviour
 {
-    public List<CombatAction> combatAcitons;
+    public List<CombatAction> combatActions;
     public Transform actionIconTemplate;
+    public Canvas actionCanvas;
+    public List<Transform> actionIcons;
+
+    public int maxDisplayedActions = 4;
+
+    public RectTransform currentActionBorder;
+
+    private bool actionQueueisDirty = true;
+
     public void AddAction(CombatAction action)
     {
-        combatAcitons.Add(action);
+        combatActions.Add(action);
+        actionQueueisDirty = true;
+        Transform newIcon = Instantiate(actionIconTemplate);
+        actionIcons.Add(newIcon);
+        newIcon.parent = actionCanvas.transform;
+        newIcon.GetChild(0).GetComponent<Image>().sprite = action.actionIcon;
+        newIcon.gameObject.SetActive(false);
     }
 
     public void TakeTopAction()
     {
-        CombatAction topAction = combatAcitons[0];
+        CombatAction topAction = combatActions[0];
         topAction.action();
-        combatAcitons.Remove(topAction);
+        combatActions.RemoveAt(0);
         GameManager.Instance.SetPlayerTurnTimer();
+        Destroy(actionIcons[0].gameObject);
+        actionIcons.RemoveAt(0);
+        actionQueueisDirty = true;
     }
 
     public bool isEmpty()
     {
-        if(combatAcitons.Count > 0)
+        if(combatActions.Count > 0)
             return false;
         else
             return true;
@@ -30,7 +48,7 @@ public class ActionQueue : MonoBehaviour
 
     private void Awake()
     {
-        combatAcitons = new List<CombatAction>();
+        combatActions = new List<CombatAction>();
         gameObject.SetActive(false);
     }
     // Start is called before the first frame update
@@ -42,14 +60,36 @@ public class ActionQueue : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        for(int i = 0; i < combatAcitons.Count; i++)
+        if(combatActions.Count > 0 && combatActions[0].defender == null)
         {
-            CombatAction combatAction = combatAcitons[i];
-            Transform newIcon = Instantiate(actionIconTemplate);
-            newIcon.GetChild(0).GetComponent<Image>().sprite = combatAction.actionIcon;
-            newIcon.gameObject.SetActive(true);
-            RectTransform newIconRect = newIcon.GetComponent<RectTransform>();
-            newIconRect.anchorMin = new Vector2(50f * i, 0f);
+            Destroy(actionIcons[0].gameObject);
+            combatActions.RemoveAt(0);
+            actionIcons.RemoveAt(0);
+            actionQueueisDirty = true;
+        }
+
+        if(actionQueueisDirty)
+        {
+            for (int i = 0; i < actionIcons.Count; i++)
+            {
+
+                if (i < maxDisplayedActions)
+                {
+                    Transform icon = actionIcons[i];
+                    icon.GetComponent<RectTransform>().position = new Vector2(currentActionBorder.position.x - 110.0f * i,
+                                                                              currentActionBorder.position.y);
+                    icon.gameObject.SetActive(true);
+                    if (i != 0)
+                    {
+                        icon.GetComponent<RectTransform>().localScale = new Vector3(.9f, .9f, .9f);
+                    }
+                }
+                else
+                {
+                    Transform icon = actionIcons[i];
+                    icon.gameObject.SetActive(false);
+                }
+            }
         }
     }
 }

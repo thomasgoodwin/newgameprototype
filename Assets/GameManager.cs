@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public GameObject CombatNotification;
     public GameObject PauseNotification;
     public GameObject ActionQueue;
+    public PlayerMovement playerCharacter;
 
     public float playerTurnTimerCurrent = 0.0f;
     public float playerTurnTimerMax = 3.0f;
@@ -34,6 +35,13 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0;
         ToggleCombatUI();
         SetPlayerTurnTimer();
+    }
+
+    public void EndCombat()
+    {
+        inCombat = false;
+        CombatNotification.SetActive(!CombatNotification.activeSelf);
+        ActionQueue.SetActive(!ActionQueue.activeSelf);
     }
 
     public void ToggleCombatUI()
@@ -65,6 +73,10 @@ public class GameManager : MonoBehaviour
             turnCounter = 0;
         }
 
+        if(playerCharacter.CheckIsMoving())
+        {
+            playerTurnTimerCurrent = playerTurnTimerMax;
+        }
         if (playerTurnTimerCurrent > 0.0f)
         {
             playerTurnTimerCurrent -= Time.deltaTime;

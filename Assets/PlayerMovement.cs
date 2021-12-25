@@ -15,9 +15,24 @@ public class PlayerMovement : MonoBehaviour
     Vector3 velocity;
     public float gravity = -9.81f;
 
+
+    public bool CheckIsMoving()
+    {
+        if (characterController.velocity.sqrMagnitude == 0.0f)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
+        
+        
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
         Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;

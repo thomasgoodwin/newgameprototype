@@ -25,6 +25,22 @@ public class Enemy : MonoBehaviour
 
     public Image crosshair;
 
+    public float deaggroRange = 10f;
+
+    public bool HasLineOfSight(Transform target, out RaycastHit hitInfo)
+    {
+        Vector3 rayDirection = target.position - eyes.transform.position;
+        LayerMask layer = 1 << LayerMask.NameToLayer("RaycastIgnore");
+        if (Physics.Raycast(eyes.transform.position, rayDirection, out hitInfo, Mathf.Infinity, ~layer))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -67,17 +83,28 @@ public class Enemy : MonoBehaviour
             lookPos.y = 0;
             var rotation = Quaternion.LookRotation(lookPos);
             transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * lookDamping);
-
-            if(Vector3.Distance(transform.position, target.position) > stoppingDistance)
+            float distanceFromTarget = Vector3.Distance(transform.position, target.position);
+            if (distanceFromTarget > stoppingDistance)
             {
                 agent.SetDestination(target.position);
             }
+
+            RaycastHit hit;
+            // deaggro check
+            if (distanceFromTarget >= deaggroRange && HasLineOfSight(target, out hit))
+            {
+                target = null;
+                EnemyManager.Instance.EnemyLeftCombat();
+            }
+
         }
 
         if(currentHealth <= 0)
         {
             Destroy(gameObject);
         }
+
+
     }
 
     void LookForPlayers()
@@ -86,15 +113,11 @@ public class Enemy : MonoBehaviour
         {
             RaycastHit hit;
             Vector3 rayDirection = player.transform.position - eyes.transform.position;
-            LayerMask layer = 1 << LayerMask.NameToLayer("RaycastIgnore");
-            if (Physics.Raycast(eyes.transform.position, rayDirection, out hit, Mathf.Infinity, ~layer))
+            if (HasLineOfSight(player.transform, out hit))
             {
                 if (hit.transform.gameObject == player)
                 {
-                    if (!GameManager.Instance.inCombat)
-                    {
-                        GameManager.Instance.StartCombat();
-                    }
+                    EnemyManager.Instance.EnemyEnteredCombat();
                     Debug.DrawRay(eyes.transform.position, rayDirection * 500, Color.green, 0.01f);
                     target = player.transform;
                 }

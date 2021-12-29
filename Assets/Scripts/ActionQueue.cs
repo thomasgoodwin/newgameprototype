@@ -16,6 +16,10 @@ public class ActionQueue : MonoBehaviour
 
     private bool actionQueueisDirty = true;
 
+    private CombatAction currentAction = null;
+
+    public MovementDetection movementDetection;
+
     public void AddAction(CombatAction action)
     {
         combatActions.Add(action);
@@ -29,8 +33,8 @@ public class ActionQueue : MonoBehaviour
 
     public void TakeTopAction()
     {
-        CombatAction topAction = combatActions[0];
-        topAction.action();
+        currentAction = combatActions[0];
+        currentAction.ability.Activate();
         combatActions.RemoveAt(0);
         GameManager.Instance.SetPlayerTurnTimer();
         Destroy(actionIcons[0].gameObject);
@@ -63,13 +67,18 @@ public class ActionQueue : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(combatActions.Count > 0 && combatActions[0].defender == null)
+        if(currentAction != null && !movementDetection.CheckIsMoving())
+        {
+            currentAction.ability.Update();
+        }
+
+        if(combatActions.Count > 0 && combatActions[0].ability.m_defender == null) // target of action is dead
         {
             Destroy(actionIcons[0].gameObject);
             combatActions.RemoveAt(0);
@@ -81,7 +90,6 @@ public class ActionQueue : MonoBehaviour
         {
             for (int i = 0; i < actionIcons.Count; i++)
             {
-
                 if (i < maxDisplayedActions)
                 {
                     Transform icon = actionIcons[i];

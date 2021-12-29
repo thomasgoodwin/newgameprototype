@@ -9,9 +9,9 @@ public class GameManager : MonoBehaviour
     public GameObject CombatNotification;
     public GameObject PauseNotification;
     public ActionQueue actionQueue;
-    public PlayerMovement playerCharacter;
+    public MovementDetection playerCharacter;
 
-    public float playerTurnTimerCurrent = 0.0f;
+    public float playerTurnTimerCurrent = 0.0f; // danger: character turn timers should prob not be in game manager
     public float playerTurnTimerMax = 3.0f;
 
     public int partySize = 1;

@@ -6,12 +6,9 @@ using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
-    public int maxHealth = 100;
-    public int currentHealth;
     public NavMeshAgent agent;
     public GameObject eyes;
     private GameObject[] players;
-    public BarValue healthBar;
     [SerializeField]
     private float lookDamping = 2.2f;
     public float lookRadius = 10f;
@@ -26,6 +23,8 @@ public class Enemy : MonoBehaviour
     public Image crosshair;
 
     public float deaggroRange = 10f;
+
+    CharacterStats characterStats;
 
     public bool HasLineOfSight(Transform target, out RaycastHit hitInfo)
     {
@@ -46,8 +45,7 @@ public class Enemy : MonoBehaviour
     {
         players = GameObject.FindGameObjectsWithTag("PlayerCollider");
         agent.stoppingDistance = stoppingDistance;
-        currentHealth = maxHealth;
-        healthBar.SetMaxValue(maxHealth);
+        characterStats = GetComponent<CharacterStats>();
     }
 
     // Update is called once per frame
@@ -98,12 +96,6 @@ public class Enemy : MonoBehaviour
             }
 
         }
-
-        if(currentHealth <= 0)
-        {
-            Destroy(gameObject);
-            EnemyManager.Instance.EnemyLeftCombat();
-        }
     }
 
     void LookForPlayers()
@@ -126,11 +118,5 @@ public class Enemy : MonoBehaviour
                 }
             }
         }
-    }
-
-    public void TakeDamage(int damage)
-    {
-        currentHealth -= damage;
-        healthBar.SetValue(currentHealth);
     }
 }

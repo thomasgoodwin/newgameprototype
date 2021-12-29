@@ -23,19 +23,32 @@ public class CharacterStats : MonoBehaviour
         healthBar.SetMaxValue(maxHealth);
 
         currentStamina = maxStamina;
-        staminaBar.SetMaxValue(maxHealth);
+        if(staminaBar)
+        {
+            staminaBar.SetMaxValue(maxHealth);
+        }
 
         currentMana = maxMana;
-        manaBar.SetMaxValue(maxHealth);
+        if(manaBar)
+        {
+            manaBar.SetMaxValue(maxHealth);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-       
+        if (currentHealth <= 0)
+        {
+            Destroy(gameObject);
+            if(tag == "Enemy")
+            {
+                EnemyManager.Instance.EnemyLeftCombat();
+            }
+        }
     }
 
-    void TakeDamage(int damage)
+    public void TakeDamage(int damage)
     {
         currentHealth -= damage;
         healthBar.SetValue(currentHealth);

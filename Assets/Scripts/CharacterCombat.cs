@@ -6,14 +6,19 @@ using UnityEngine.UI;
 public class CharacterCombat : MonoBehaviour
 {
     public CharacterController characterController;
-    private FighterAbilities fighterAbilities;
+    public List<string> presetAbilities = new List<string>(); // so we can change character abilities in editor with tags
+    public List<Ability> abilities = new List<Ability>(); // this is the actual list of abilities that might grow in game
     public Transform currentTarget;
     public ActionQueue actionQueue;
 
     // Start is called before the first frame update
     void Start()
     {
-        fighterAbilities = new FighterAbilities();
+        for(int i = 0; i < presetAbilities.Count; i++)
+        {
+            // danger: this might be a shallow copy so it will not work with attacker and defender refs
+            abilities.Add(AbilityBank.Instance.bank[presetAbilities[i]]); 
+        }
     }
 
     // Update is called once per frame
@@ -25,13 +30,14 @@ public class CharacterCombat : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                actionQueue.AddAction(new CombatAction
+                CombatAction newAction = new CombatAction
                 {
-                    action = () => fighterAbilities.NormalAttack(transform, currentTarget),
-                    actionIcon = SpriteBank.Instance.normalAttackIcon,
-                    attacker = transform,
-                    defender = currentTarget
-                });
+                    ability = abilities[0], // danger: hard coded for basic attack
+                    actionIcon = SpriteBank.Instance.normalAttackIcon
+                };
+                newAction.ability.m_attacker = transform;
+                newAction.ability.m_defender = currentTarget.transform;
+                actionQueue.AddAction(newAction);
             }
         }
         
@@ -63,5 +69,4 @@ public class CharacterCombat : MonoBehaviour
             gameManager.turnCounter++;
         }
     }
-
 }

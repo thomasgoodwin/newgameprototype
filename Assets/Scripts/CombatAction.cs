@@ -5,8 +5,6 @@ using System;
 
 public class CombatAction 
 {
-    public Action action;
+    public Ability ability;
     public Sprite actionIcon;
-    public Transform attacker;
-    public Transform defender;
 }

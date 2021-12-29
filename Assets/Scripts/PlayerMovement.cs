@@ -15,19 +15,6 @@ public class PlayerMovement : MonoBehaviour
     Vector3 velocity;
     public float gravity = -9.81f;
 
-
-    public bool CheckIsMoving()
-    {
-        if (characterController.velocity.sqrMagnitude == 0.0f)
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-    }
-
     // Update is called once per frame
     void Update()
     {

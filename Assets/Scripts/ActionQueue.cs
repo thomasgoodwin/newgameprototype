@@ -45,6 +45,15 @@ public class ActionQueue : MonoBehaviour
         else
             return true;
     }
+    public void ClearActionQueue()
+    {
+        for (int i = 0; i < actionIcons.Count; i++)
+        {
+            Destroy(actionIcons[i].gameObject);
+        }
+        actionIcons.Clear();
+        combatActions.Clear();
+    }
 
     private void Awake()
     {

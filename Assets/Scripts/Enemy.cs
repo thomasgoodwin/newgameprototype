@@ -102,9 +102,8 @@ public class Enemy : MonoBehaviour
         if(currentHealth <= 0)
         {
             Destroy(gameObject);
+            EnemyManager.Instance.EnemyLeftCombat();
         }
-
-
     }
 
     void LookForPlayers()

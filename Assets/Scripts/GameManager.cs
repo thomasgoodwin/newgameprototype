@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     public GameObject CombatNotification;
     public GameObject PauseNotification;
-    public GameObject ActionQueue;
+    public ActionQueue actionQueue;
     public PlayerMovement playerCharacter;
 
     public float playerTurnTimerCurrent = 0.0f;
@@ -41,14 +41,15 @@ public class GameManager : MonoBehaviour
     {
         inCombat = false;
         CombatNotification.SetActive(!CombatNotification.activeSelf);
-        ActionQueue.SetActive(!ActionQueue.activeSelf);
+        actionQueue.ClearActionQueue();
+        actionQueue.gameObject.SetActive(!actionQueue.gameObject.activeSelf);
     }
 
     public void ToggleCombatUI()
     {
         PauseNotification.SetActive(!PauseNotification.activeSelf);
         CombatNotification.SetActive(!CombatNotification.activeSelf);
-        ActionQueue.SetActive(!ActionQueue.activeSelf);
+        actionQueue.gameObject.SetActive(!actionQueue.gameObject.activeSelf);
     }
 
     // Update is called once per frame

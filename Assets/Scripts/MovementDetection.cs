@@ -5,8 +5,8 @@ using UnityEngine.AI;
 
 public class MovementDetection : MonoBehaviour
 {
-    NavMeshAgent agent;
-    CharacterController controller;
+    public NavMeshAgent agent;
+    public CharacterController controller;
     public bool CheckIsMoving()
     {
         if (controller != null)
@@ -22,6 +22,7 @@ public class MovementDetection : MonoBehaviour
         }
         else
         {
+            print(gameObject.name);
             if (agent.velocity.sqrMagnitude == 0.0f)
             {
                 return false;

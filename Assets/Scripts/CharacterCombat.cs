@@ -32,7 +32,7 @@ public class CharacterCombat : MonoBehaviour
             {
                 CombatAction newAction = new CombatAction
                 {
-                    ability = abilities[0], // danger: hard coded for basic attack
+                    ability = (Ability)abilities[0].Clone(), // danger: hard coded for basic attack
                     actionIcon = SpriteBank.Instance.normalAttackIcon
                 };
                 newAction.ability.m_attacker = transform;

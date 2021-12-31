@@ -41,15 +41,14 @@ public class GameManager : MonoBehaviour
     {
         inCombat = false;
         CombatNotification.SetActive(!CombatNotification.activeSelf);
-        actionQueue.ClearActionQueue();
-        actionQueue.gameObject.SetActive(!actionQueue.gameObject.activeSelf);
+        actionQueue.ToggleUI();
     }
 
     public void ToggleCombatUI()
     {
         PauseNotification.SetActive(!PauseNotification.activeSelf);
         CombatNotification.SetActive(!CombatNotification.activeSelf);
-        actionQueue.gameObject.SetActive(!actionQueue.gameObject.activeSelf);
+        actionQueue.ToggleUI();
     }
 
     // Update is called once per frame

@@ -10,8 +10,9 @@ public class Ability : ICloneable // all child abilities must init attacker and 
         return MemberwiseClone();
     }
     // initialize the ability
-    virtual public void Activate()
+    virtual public void Activate(AnimationController animator)
     {
+        m_animator = animator;
     }
     // if the ability needs to be ticked 
     virtual public void Update()
@@ -31,6 +32,8 @@ public class Ability : ICloneable // all child abilities must init attacker and 
     public float m_durationCurrent;
     public float m_durationMax;
     public bool m_isFinished = false;
+    public string m_animationTrigger = null;
+    protected AnimationController m_animator = null; // stored to play animation
 }
 
 public class MutilateAbiltiy : Ability
@@ -42,12 +45,14 @@ public class MutilateAbiltiy : Ability
         m_defender = defender;
         m_durationMax = 2.0f;
         m_durationCurrent = 0.0f;
+        m_animationTrigger = "MutilateTRG";
     }
-    override public void Activate()
+    override public void Activate(AnimationController animator)
     {
-        base.Activate();
+        base.Activate(animator);
         m_durationCurrent = m_durationMax;
         m_defender.gameObject.GetComponent<CharacterStats>().TakeDamage(20);
+        m_animator.PlayAbilityAnimation(m_animationTrigger);
     }
     override public void Update()
     {
@@ -70,7 +75,6 @@ public class MutilateAbiltiy : Ability
     {
         base.Deactivate();
     }
-    
 }
 
 
@@ -85,8 +89,6 @@ public class AbilityBank : MonoBehaviour
 
         MutilateAbiltiy mutilateAbiltiy = new MutilateAbiltiy(null, null);
         bank.Add("mutilate_ability", mutilateAbiltiy);
-
-
     }
     // Start is called before the first frame update
     void Start()

@@ -7,6 +7,7 @@ public class ActionQueue : MonoBehaviour
 {
     public List<CombatAction> combatActions;
     public MovementDetection movementDetection;
+    public AnimationController animationController;
 
     public void RemoveTopAction()
     {
@@ -48,7 +49,7 @@ public class ActionQueue : MonoBehaviour
 
     public void TakeTopAction()
     {
-        combatActions[0].ability.Activate();
+        combatActions[0].ability.Activate(animationController);
         GameManager.Instance.SetPlayerTurnTimer();
         
     }

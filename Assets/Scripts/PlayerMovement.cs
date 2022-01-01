@@ -11,7 +11,6 @@ public class PlayerMovement : MonoBehaviour
 
     public float turnSmoothTime = .1f;
     float turnSmoothVelocity;
-
     Vector3 velocity;
     public float gravity = -9.81f;
 

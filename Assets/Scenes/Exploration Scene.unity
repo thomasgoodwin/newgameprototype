@@ -2890,11 +2890,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1513786535916921608, guid: beee7661af096b947ac2056ffe52fa84, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.0000000042880655
+      value: -0.0000000042880663
       objectReference: {fileID: 0}
     - target: {fileID: 1513786535916921608, guid: beee7661af096b947ac2056ffe52fa84, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -3.4090142e-10
+      value: 3.409015e-10
       objectReference: {fileID: 0}
     - target: {fileID: 1513786536835444023, guid: beee7661af096b947ac2056ffe52fa84, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2906,11 +2906,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1513786537457687172, guid: beee7661af096b947ac2056ffe52fa84, type: 3}
       propertyPath: speed
-      value: 0.8
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1513786537457687172, guid: beee7661af096b947ac2056ffe52fa84, type: 3}
       propertyPath: friction
-      value: 0.02
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1513786537457687172, guid: beee7661af096b947ac2056ffe52fa84, type: 3}
+      propertyPath: acceleration
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1513786537457687172, guid: beee7661af096b947ac2056ffe52fa84, type: 3}
+      propertyPath: jumpVelocity
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1513786537551264285, guid: beee7661af096b947ac2056ffe52fa84, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2926,11 +2934,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1513786537786588477, guid: beee7661af096b947ac2056ffe52fa84, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -9.715095e-10
+      value: 9.715094e-10
       objectReference: {fileID: 0}
     - target: {fileID: 1513786537786588477, guid: beee7661af096b947ac2056ffe52fa84, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -2.2800722e-10
+      value: 2.2800727e-10
       objectReference: {fileID: 0}
     - target: {fileID: 1513786537965613361, guid: beee7661af096b947ac2056ffe52fa84, type: 3}
       propertyPath: m_AnchorMax.x

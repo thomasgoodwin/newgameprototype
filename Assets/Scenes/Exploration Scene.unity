@@ -2904,6 +2904,14 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1513786537457687172, guid: beee7661af096b947ac2056ffe52fa84, type: 3}
+      propertyPath: speed
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1513786537457687172, guid: beee7661af096b947ac2056ffe52fa84, type: 3}
+      propertyPath: friction
+      value: 0.02
+      objectReference: {fileID: 0}
     - target: {fileID: 1513786537551264285, guid: beee7661af096b947ac2056ffe52fa84, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0

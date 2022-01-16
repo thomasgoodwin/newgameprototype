@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     public Transform cam;
 
     public float speed = 3f;
+    public float friction = 0.01f;
 
     public float turnSmoothTime = .1f;
     float turnSmoothVelocity;
@@ -28,13 +29,21 @@ public class PlayerMovement : MonoBehaviour
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
-            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            moveDir += velocity;
-            float speedFactor = speed * Time.deltaTime;
-            characterController.Move(new Vector3(moveDir.x * speedFactor, moveDir.y * Time.deltaTime, moveDir.z * speedFactor));
+            Vector3 wishDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+            velocity += wishDir;
+            velocity *= 1 - friction;
+            float alreadySpeed = Vector3.Dot(wishDir.normalized, velocity.normalized);
+
+            if (alreadySpeed > speed)
+            {
+                velocity *= speed / alreadySpeed;
+            }
+            
+            characterController.Move(velocity * Time.deltaTime);
         }
-        else
+        else if (velocity.magnitude >= 0.1f)
         {
+            velocity *= 1 - friction;
             characterController.Move(velocity * Time.deltaTime);
         }
     }
